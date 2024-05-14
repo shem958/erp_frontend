@@ -1,14 +1,18 @@
 //The code defines a functional component called 'DataTable' that displays a table of data with search and filter functionality
 // The component imports React and some hooks {'useState' and 'useEffect'} from the React library. It also imports a CSS file for styling the table
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./DataTable.css";
-import dataSet from "./data.json";
-import {
+// import dataSet from "./data.json";
+
+/*import {
   FaCheckCircle,
   FaExclamationTriangle,
   FaGooglePay,
-} from "react-icons/fa";
-import { FaCcVisa } from "react-icons/fa";
+} 
+from "react-icons/fa";
+*/
+//import { FaCcVisa } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { FaFilter } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
@@ -17,8 +21,8 @@ import { FaTrash } from "react-icons/fa";
 
 // Hooks allow function components to have access to state and other React features
 //props
-const DataTable = (props) => {
-  console.log("OPROS: ", props);
+const DataTable = () => {
+  // console.log("OPROS: ", props);
   /*
     The component defines three pieces of state using the 'useState' hook :
     > 'data'  is an array that will hold the data to be displayed in the table .It is initialized into an empty array.
@@ -35,16 +39,37 @@ const DataTable = (props) => {
    in the 'data' state using the 'setData' function.
    */
   useEffect(() => {
-    setData(dataSet);
+    //setData(dataSet);
+    fetchData();
   }, []);
 
-  console.log("DATA: ", data);
+  // console.log("DATA: ", data);
   /*
    The component defines two event handlers:
    > 'handleSearch' is called when the user types in the search input.It updates the 'searchTerm' state with the current value of the input
    > 'handlefilter' is called when the user clicks the 'Filter by status' button or selects a status from the dropdown .It updates the 'statusFilter' 
    state with the current value of the button or dropdown 
     */
+
+  /*
+   > In the 'fetchdata' function , AXIOS is used to make a GET request to the API endpoint
+   > axios.get is used to send a GET request to the specified URL.
+   > The response from the server is stored in the 'response' variable.
+   > response.data contains the JSON data returned from the server
+   > The fetched data is then stored in the component's state using setData.
+   > Axios allows you to handle errors using try-catch blocks. If there's an error during the request, it will be caught in the catch block, and an error message will be logged to the console
+   */
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://605dd8879386d200171bb5e5.mockapi.io/api/v1/transactions"
+      );
+      const jsonData = response.data;
+      setData(jsonData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -126,70 +151,16 @@ The component renders a table with a search input , a "Filter by status" button 
         </thead>
         <tbody>
           {filteredData.map((item) => (
-            <tr key={item.TransactionID}>
+            <tr key={item.transactionId}>
               <td>
                 <input type="checkbox" />
               </td>
-              <td>{item.TransactionID}</td>
-              <td>{item.CustomerFullName}</td>
-              <td>{item.Date}</td>
-              <td>
-                {item.Payment === "GPay" && (
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <FaGooglePay
-                      style={{ color: "#34A853", fontSize: 24, padding: 4 }}
-                    />
-                    <div
-                      style={{
-                        marginLeft: 8,
-                        fontFamily: "Helvetica, sans-serif",
-                      }}
-                    >
-                      <div style={{ fontSize: 14, fontWeight: 500 }}>
-                        ****9876
-                      </div>
-                      <div style={{ fontSize: 14, fontWeight: 500 }}>
-                        EXP 05/24
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {item.Payment === "VISA" && (
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <FaCcVisa
-                      style={{ color: "#006bff", fontSize: 24, padding: 4 }}
-                    />
-                    <div
-                      style={{
-                        marginLeft: 8,
-                        fontFamily: "Helvetica, sans-serif",
-                      }}
-                    >
-                      <div style={{ fontSize: 14, fontWeight: 500 }}>
-                        ****9876
-                      </div>
-                      <div style={{ fontSize: 14, fontWeight: 500 }}>
-                        EXP 05/24
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </td>
-              <td>${item.Amount}</td>
-              <td>
-                {item.Status === "Pending" && (
-                  <div className="status-icon pending">
-                    <FaExclamationTriangle />
-                    <span className="status-text">Pending</span>
-                  </div>
-                )}
-                {item.Status === "Completed" && (
-                  <div className="status-icon completed">
-                    <FaCheckCircle />
-                    <span className="status-text">Completed</span>
-                  </div>
-                )}
-              </td>
+              <td>{item.transactionId}</td>
+              <td>{item.customerFullName}</td>
+              <td>{item.createdAt}</td>
+              <td>{item.paymentMethod}</td>
+              <td>${item.amount}</td>
+              <td>{item.status}</td>
               <td>
                 <FaDownload className="action-icon" />
                 <FaTrash className="action-icon" />

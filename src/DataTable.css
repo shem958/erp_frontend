@@ -46,80 +46,74 @@ th{
 tr:nth-child(even){
     background-color: #f2f2f2;
 }
-.search-container {
+/* DataTable.css */
+
+/* Your existing CSS styles */
+transaction-toolbar {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
+  padding: 10px;
 }
-input[type="search"]{
-    flex: 0;
-    border: 1px solid #ccc;
-    padding: 8px 12px 8px 30px;
-    font-size: 14px;
-    border-radius: 5px;
-    width: 200px;
-    margin-right: 10px;
-    background-color: #f2f2f2;
-    background-size: 16px;
+
+.search-bar {
+  flex: 1;
+  margin-right: 10px;
+  position: relative;
 }
-input[type="search"]:focus{
-    outline: none;
-    border-color: #007bff;
+input[type="search"] {
+  width: 180px;
+  padding: 8px 30px 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #f2f2f2;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23666"><path d="M20.96 20.01l-4.142-4.142c1.191-1.519 1.939-3.42 1.939-5.477 0-4.412-3.588-8-8-8s-8 3.588-8 8 3.588 8 8 8c2.057 0 3.958-.748 5.477-1.939l4.142 4.142c.39.391 1.023.391 1.414 0 .391-.391.391-1.024 0-1.415zm-12.96-3.01c-3.313 0-6-2.687-6-6s2.687-6 6-6 6 2.687 6 6-2.687 6-6 6z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  outline: none;
+  transition: all 0.3s;
+}
+input[type="search"]:focus {
+  width: 220px;
+}
+.filter-toggle,
+.add-manually-btn {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .filter-toggle {
   background-color: #ccc;
   color: #333;
-  padding: 6px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  position: relative;
-  overflow: visible;
 }
 
-.filter-toggle:hover {
-  background-color: #999;
-}
-
-.filter-toggle::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 6px;
-  border-style: solid;
-  border-color: #ccc transparent transparent transparent;
-  transition: border-color 0.3s ease;
-}
-
-.filter-toggle:hover::after {
-  border-color: #999 transparent transparent transparent;
-}
-
-.filter-icon {
-  color: #fff;
-  font-size: 16px;
-  margin-right: 4px;
-}
-
-.fab {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+.add-manually-btn {
   background-color: #007bff;
   color: white;
-  padding: 1.5rem;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.fab:hover {
-  background-color: #0056b3;
+.filter-toggle:hover,
+.add-manually-btn:hover {
+  background-color: #999;
 }
+.status {
+  display: flex;
+  align-items: center;
+  margin-left:auto;
+}
+
+.status .button-group {
+  display: flex;
+  align-items: center;
+}
+
+
   .status-icon {
     display: inline-flex;
     align-items: center;
@@ -159,3 +153,27 @@ input[type="search"]:focus{
 
 
  
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #e0e0e0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .pagination button:hover {
+    background-color: #ccc;
+  }
+  
+  .pagination button.active {
+    background-color: #333;
+    color: white;
+  }

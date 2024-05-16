@@ -34,6 +34,9 @@ const DataTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [newData, setNewData] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Number of items to display per page
+
   /*
    The component uses the 'useEffect' hook to fetch data from a JSON file called 'data.json' when the component mounts.The fetched data is then stored
    in the 'data' state using the 'setData' function.
@@ -82,6 +85,7 @@ const DataTable = () => {
     setData([...data, newDataItem]);
     setNewData({}); // reset new data state
   };
+
   /*
    The component defines a 'filteredData' array that contains the data from the 'data' state but filtered based on 'searchTerm' and 'statusFilter'. 
    The filtering logic is as follows:
@@ -107,6 +111,19 @@ const DataTable = () => {
   console.log("statusFilter:", statusFilter);
   console.log("filteredData:", filteredData);
 
+  // Pagination Logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const paginationContainerStyle = {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "20px",
+  };
+
   /*
 The component renders a table with a search input , a "Filter by status" button , a dropdown for selecting a status filter , and a table body that contains the 
 'filteredData' array . The 'filteredData' array is mapped to a table row for each item.
@@ -116,24 +133,27 @@ The component renders a table with a search input , a "Filter by status" button 
   return (
     <div>
       <h2>Transactions</h2>
-      <div className="search-container">
-        <input
-          type="search"
-          value={searchTerm}
-          onChange={handleSearch}
-          placeholder="Search"
-          style={{ flex: 1 }}
-        />
-        <FaSearch className="search-icon" />
-        <div>
-          <button className="filter-toggle" onClick={handleFilter}>
-            <FaFilter className="filter-icon" />
-            Filters
-          </button>
-          <button className="fab" onClick={handleAddData}>
-            <FaPlus style={{ color: "white", fontSize: 24, padding: 4 }} />
-            Add Manually
-          </button>
+      <div className="transaction-toolbar">
+        <div className="search-bar">
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={handleSearch}
+            placeholder="Search"
+          />
+          <FaSearch className="search-icon" />
+        </div>
+        <div className="status">
+          <div className="button-group">
+            <button className="filter-toggle" onClick={handleFilter}>
+              <FaFilter className="filter-icon" />
+              Filters
+            </button>
+            <button className="add-manually-btn" onClick={handleAddData}>
+              <FaPlus style={{ color: "white", fontSize: 14 }} />
+              Add Manually
+            </button>
+          </div>
         </div>
       </div>
       <table>
@@ -150,8 +170,8 @@ The component renders a table with a search input , a "Filter by status" button 
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((item) => (
-            <tr key={item.transactionId}>
+          {currentItems.map((item) => (
+            <tr key={item.id}>
               <td>
                 <input type="checkbox" />
               </td>
@@ -169,8 +189,52 @@ The component renders a table with a search input , a "Filter by status" button 
           ))}
         </tbody>
       </table>
+      <div style={paginationContainerStyle} className="pagination">
+        {/* Pagination buttons here */}
+        {Array.from(
+          { length: Math.ceil(filteredData.length / itemsPerPage) },
+          (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => paginate(index + 1)}
+              className={
+                currentPage === index + 1
+                  ? "pagination-button active"
+                  : "pagination-button"
+              }
+            >
+              {index + 1}
+            </button>
+          )
+        )}
+      </div>
     </div>
   );
 };
 
 export default DataTable;
+
+/*
+Define Variables:
+
+currentPage: Represents the current page number.
+itemsPerPage: Specifies the number of items to display per page.
+indexOfLastItem: Calculates the index of the last item on the current page.
+indexOfFirstItem: Calculates the index of the first item on the current page.
+currentItems: Extracts the items to display on the current page from the filtered data array.
+Pagination Buttons:
+
+paginationButtons array is generated dynamically based on the total number of items and the itemsPerPage.
+The length of paginationButtons array is calculated using Math.ceil(filteredData.length / itemsPerPage), which gives the total number of pages needed to display all the items.
+Each button represents a page number and is created using the Array.from() method, ranging from 1 to the total number of pages.
+Each button has an onClick event handler that calls the paginate() function with the corresponding page number.
+The className of each button is conditionally assigned based on whether it represents the current page (currentPage === index + 1). If it does, it gets the "pagination-button active" class, indicating that it's the current page.
+Pagination Functionality:
+
+The paginate() function is called when a pagination button is clicked.
+It takes the page number as an argument and updates the currentPage state accordingly, causing the component to re-render with the items of the selected page displayed.
+
+
+
+
+*/

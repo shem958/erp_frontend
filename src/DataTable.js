@@ -75,9 +75,11 @@ const DataTable = () => {
   };
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1); // Reset to the first page when search term changes
   };
   const handleFilter = (event) => {
     setStatusFilter(event.target.value);
+    setCurrentPage(1); // Reset to the first page when filter changes
   };
   const handleAddData = (event) => {
     event.preventDefault();
@@ -98,11 +100,15 @@ const DataTable = () => {
   const filteredData = data.filter((item) => {
     const matchesSearchTerm =
       !searchTerm ||
-      item.TransactionID.includes(searchTerm) ||
-      item.CustomerFullName.includes(searchTerm) ||
-      item.Amount.toString().includes(searchTerm);
+      (item.transactionId &&
+        item.transactionId.toLowerCase().includes(searchTerm)) ||
+      (item.customerFullName &&
+        item.customerFullName.toLowerCase().includes(searchTerm)) ||
+      (item.amount &&
+        item.amount.toString().toLowerCase().includes(searchTerm));
 
-    const matchesStatusFilter = !statusFilter || item.Status === statusFilter;
+    const matchesStatusFilter =
+      !statusFilter || (item.Status && item.Status === statusFilter);
 
     return matchesSearchTerm && matchesStatusFilter;
   });

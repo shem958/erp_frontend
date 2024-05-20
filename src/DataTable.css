@@ -17,6 +17,10 @@
   }
 }
 
+table thead th {
+  position: relative;
+}
+
 
 h2{
   font-family: 'Inter', sans-serif;
@@ -53,23 +57,26 @@ transaction-toolbar {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 10px;
 }
 
 .search-bar {
-  flex: 1;
+ /* flex: 1; */
+ flex: 0 0 auto;
   margin-right: 10px;
   position: relative;
+  align-self: flex-end;
 }
 input[type="search"] {
+  background-image: none;
   width: 180px;
   padding: 8px 30px 8px 12px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 20px;
   background-color: #f2f2f2;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23666"><path d="M20.96 20.01l-4.142-4.142c1.191-1.519 1.939-3.42 1.939-5.477 0-4.412-3.588-8-8-8s-8 3.588-8 8 3.588 8 8 8c2.057 0 3.958-.748 5.477-1.939l4.142 4.142c.39.391 1.023.391 1.414 0 .391-.391.391-1.024 0-1.415zm-12.96-3.01c-3.313 0-6-2.687-6-6s2.687-6 6-6 6 2.687 6 6-2.687 6-6 6z"/></svg>');
+  /*background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23666"><path d="M20.96 20.01l-4.142-4.142c1.191-1.519 1.939-3.42 1.939-5.477 0-4.412-3.588-8-8-8s-8 3.588-8 8 3.588 8 8 8c2.057 0 3.958-.748 5.477-1.939l4.142 4.142c.39.391 1.023.391 1.414 0 .391-.391.391-1.024 0-1.415zm-12.96-3.01c-3.313 0-6-2.687-6-6s2.687-6 6-6 6 2.687 6 6-2.687 6-6 6z"/></svg>'); */
   background-repeat: no-repeat;
   background-position: 10px center;
   outline: none;
@@ -78,6 +85,16 @@ input[type="search"] {
 input[type="search"]:focus {
   width: 220px;
 }
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 16px;
+  pointer-events: none;
+}
+
 .filter-toggle,
 .add-manually-btn {
   padding: 8px 12px;
@@ -89,11 +106,17 @@ input[type="search"]:focus {
 }
 
 .filter-toggle {
+  position: absolute;
+  top: 10px;
+  right: 160px; 
   background-color: #ccc;
   color: #333;
 }
 
 .add-manually-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   background-color: #007bff;
   color: white;
 }
@@ -104,8 +127,10 @@ input[type="search"]:focus {
 }
 .status {
   display: flex;
-  align-items: center;
+ /* align-items: center; */
+ align-items: flex-end;
   margin-left:auto;
+  margin-bottom: 10px;
 }
 
 .status .button-group {

@@ -19,6 +19,13 @@ import { FaPlus } from "react-icons/fa";
 import { FaDownload } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 
+// Loader component
+const Loader = () => (
+  <div className="loader-container">
+    <div className="loader"></div>
+  </div>
+);
+
 // Hooks allow function components to have access to state and other React features
 //props
 const DataTable = () => {
@@ -36,6 +43,7 @@ const DataTable = () => {
   const [newData, setNewData] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10); // Number of items to display per page
+  const [isLoading, setIsLoading] = useState(true);
 
   /*
    The component uses the 'useEffect' hook to fetch data from a JSON file called 'data.json' when the component mounts.The fetched data is then stored
@@ -69,8 +77,10 @@ const DataTable = () => {
       );
       const jsonData = response.data;
       setData(jsonData);
+      setIsLoading(false); // Set loading to false after the data is fetched
     } catch (error) {
       console.error("Error fetching data:", error);
+      setIsLoading(false); // Set loading to false even if there's an error
     }
   };
   const handleSearch = (event) => {
@@ -162,58 +172,64 @@ The component renders a table with a search input , a "Filter by status" button 
           </div>
         </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Transcaction ID</th>
-            <th>Customer Full Name</th>
-            <th>Date</th>
-            <th>Payment Method</th>
-            <th>Amount ($)</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((item) => (
-            <tr key={item.id}>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td>{item.transactionId}</td>
-              <td>{item.customerFullName}</td>
-              <td>{item.createdAt}</td>
-              <td>{item.paymentMethod}</td>
-              <td>${item.amount}</td>
-              <td>{item.status}</td>
-              <td>
-                <FaDownload className="action-icon" />
-                <FaTrash className="action-icon" />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div style={paginationContainerStyle} className="pagination">
-        {/* Pagination buttons here */}
-        {Array.from(
-          { length: Math.ceil(filteredData.length / itemsPerPage) },
-          (_, index) => (
-            <button
-              key={index + 1}
-              onClick={() => paginate(index + 1)}
-              className={
-                currentPage === index + 1
-                  ? "pagination-button active"
-                  : "pagination-button"
-              }
-            >
-              {index + 1}
-            </button>
-          )
-        )}
-      </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Transcaction ID</th>
+                <th>Customer Full Name</th>
+                <th>Date</th>
+                <th>Payment Method</th>
+                <th>Amount ($)</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((item) => (
+                <tr key={item.id}>
+                  <td>
+                    <input type="checkbox" />
+                  </td>
+                  <td>{item.transactionId}</td>
+                  <td>{item.customerFullName}</td>
+                  <td>{item.createdAt}</td>
+                  <td>{item.paymentMethod}</td>
+                  <td>${item.amount}</td>
+                  <td>{item.status}</td>
+                  <td>
+                    <FaDownload className="action-icon" />
+                    <FaTrash className="action-icon" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div style={paginationContainerStyle} className="pagination">
+            {/* Pagination buttons here */}
+            {Array.from(
+              { length: Math.ceil(filteredData.length / itemsPerPage) },
+              (_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => paginate(index + 1)}
+                  className={
+                    currentPage === index + 1
+                      ? "pagination-button active"
+                      : "pagination-button"
+                  }
+                >
+                  {index + 1}
+                </button>
+              )
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

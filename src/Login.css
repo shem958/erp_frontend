@@ -4,13 +4,12 @@ html, body {
   padding: 0;
   font-family: Arial, sans-serif;
 }
+
 .login-container {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
-
-
 
 .login-image {
   flex: 1;
@@ -26,81 +25,112 @@ html, body {
   align-items: center;
   background-color: #f5f5f5;
   height: 100%;
+  padding: 2rem 4rem; /* Added padding for better alignment */
 }
 
 .login-form {
   width: 100%;
-  max-width: 400px;
+  max-width: 500px; /* Increased max-width for a larger form */
   background: white;
-  padding: 2rem;
+  padding: 2.5rem; /* Increased padding for better spacing */
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  margin: 0 auto;
 }
+
 .login-form h2 {
   margin-bottom: 1rem;
   font-weight: bold;
   text-align: center;
+  font-size: 1.8rem; /* Increased font size for better visibility */
 }
 
 .login-form p {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem; /* Increased margin-bottom for better spacing */
   color: #777;
   text-align: center;
+  font-size: 1rem;
 }
 
 .login-form input {
   width: 100%;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
+  padding: 1rem; /* Increased padding for better visibility */
+  margin-bottom: 1.5rem; /* Increased margin-bottom for better spacing */
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 1rem;
+}
+.password-container {
+  position: relative;
+  width: 100%;
+}
+.password-container .toggle-password-icon {
+  position: absolute;
+  top: -25px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #007bff;
 }
 
+.password-container .toggle-password-icon:hover {
+  color: #0056b3;
+}
 .login-form .forgot-password {
   display: block;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem; /* Increased margin-bottom for better spacing */
   text-align: right;
   color: #007bff;
   text-decoration: none;
+  font-size: 1rem;
 }
+
+.login-form .forgot-password:hover {
+  text-decoration: underline;
+}
+
 .login-form button {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem; /* Increased padding for better visibility */
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.2rem; /* Increased font size for better visibility */
   transition: background-color 0.3s ease;
   margin-bottom: 1rem;
-}
-
-.login-form .login-button {
-  background-color: #808080; /* Grey color for login button */
+  background-color: #808080;
   color: white;
 }
 
 .login-form .login-button:hover {
-  background-color: #666666; /* Darker grey on hover */
+  background-color: #666666;
 }
+
 .create-account-container {
-  width: 80%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   background-color: #d9d9d9;
-  padding: 1.5rem;
+  padding: 1.75rem; /* Added padding for better spacing */
   border-radius: 8px;
-  margin: 2rem auto;
+  margin: auto;
 }
+
+.create-account-container p {
+  margin-bottom: 1.5rem; /* Increased margin-bottom for better spacing */
+  font-size: 1rem;
+}
+
 .create-account-button {
   background-color: #000;
   color: white;
   border: none;
   border-radius: 20px;
-  padding: 0.75rem 2rem;
+  padding: 1rem 2.5rem; /* Increased padding for better visibility */
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.2rem; /* Increased font size for better visibility */
   transition: background-color 0.3s ease;
   margin-top: 1rem;
 }

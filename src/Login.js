@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing the icons
 import "./Login.css";
 /*
 > Use navigate : A hook from 'react-router-dom' used for navigation between routes
@@ -10,6 +11,7 @@ const Login = () => {
   // email - A state variable used to hold the user's email input
   const [password, setPassword] = useState("");
   // password -  A state variable to hold the user's password
+  const [showPassword, setShowPassword] = useState(false); // State to track if password is shown
   const navigate = useNavigate();
   // navigate - A function used to programmatically navigate to a different route within the application
 
@@ -43,12 +45,20 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="password-container">
+            <input
+              type={showPassword ? "text" : "password"} // Toggle password visibility
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <div
+              className="toggle-password-icon"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </div>
+          </div>
           <a href="#forgot-password" className="forgot-password">
             I forgot my password
           </a>
